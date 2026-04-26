@@ -1,139 +1,171 @@
 import 'package:flutter/material.dart';
-import '../db/database_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../helpers/localization_helper.dart';
+import '../main.dart';
 
-class ShoppingListScreen extends StatefulWidget {
-  const ShoppingListScreen({super.key});
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
   @override
-  State<ShoppingListScreen> createState() => _ShoppingListScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  List<Map<String, dynamic>> _items = [];
-  bool _loading = true;
+class _SettingsScreenState extends State<SettingsScreen> {
+  String _language = LocalizationHelper.currentLanguage;
+  bool _notifications = true;
+
+  final _languages = [
+    {'code': 'en', 'name': 'English', 'flag': '🇺🇸', 'native': 'English'},
+    {'code': 'ar', 'name': 'Arabic', 'flag': '🇸🇦', 'native': 'العربية'},
+    {'code': 'fr', 'name': 'French', 'flag': '🇫🇷', 'native': 'Français'},
+    {'code': 'es', 'name': 'Spanish', 'flag': '🇪🇸', 'native': 'Español'},
+  ];
 
   @override
   void initState() {
     super.initState();
-    _load();
+    _loadSettings();
   }
 
-  Future<void> _load() async {
-    final items = await DatabaseHelper.getShoppingList();
-    setState(() { _items = items; _loading = false; });
+  Future<void> _loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _language = prefs.getString('app_language') ?? 'en';
+      _notifications = prefs.getBool('notifications_enabled') ?? true;
+    });
+  }
+
+  Future<void> _setLanguage(String code) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('app_language', code);
+    LocalizationHelper.currentLanguage = code;
+    setState(() => _language = code);
+    if (mounted) {
+      PawsAndPillsApp.of(context)?.setLanguage(code);
+      setState(() {});
+    }
+  }
+
+  Future<void> _toggleNotifications(bool val) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('notifications_enabled', val);
+    setState(() => _notifications = val);
   }
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final pending = _items.where((i) => i['bought'] == 0).length;
-    final bought = _items.where((i) => i['bought'] == 1).length;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: scheme.primaryContainer,
-        title: Text(LocalizationHelper.t('shopping_list'),
+        title: Text(LocalizationHelper.t('settings'),
             style: TextStyle(fontWeight: FontWeight.bold, color: scheme.primary)),
-        actions: [
-          if (bought > 0)
-            TextButton(
-              onPressed: () async {
-                for (final item in _items.where((i) => i['bought'] == 1)) {
-                  await DatabaseHelper.deleteShoppingItem(item['id'] as int);
-                }
-                await _load();
-              },
-              child: Text('Clear Done', style: TextStyle(color: scheme.primary)),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          // Language section
+          _sectionHeader(LocalizationHelper.t('language'), Icons.language),
+          const SizedBox(height: 10),
+          ..._languages.map((lang) => Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: InkWell(
+              onTap: () => _setLanguage(lang['code']!),
+              borderRadius: BorderRadius.circular(12),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                decoration: BoxDecoration(
+                  color: _language == lang['code'] ? scheme.primaryContainer : scheme.surface,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: _language == lang['code'] ? scheme.primary : scheme.outline,
+                    width: _language == lang['code'] ? 2 : 1,
+                  ),
+                ),
+                child: Row(children: [
+                  Text(lang['flag']!, style: const TextStyle(fontSize: 24)),
+                  const SizedBox(width: 12),
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(lang['native']!, style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: _language == lang['code'] ? scheme.primary : null,
+                    )),
+                    Text(lang['name']!, style: TextStyle(
+                      fontSize: 12,
+                      color: _language == lang['code'] ? scheme.primary.withOpacity(0.7) : Colors.grey,
+                    )),
+                  ]),
+                  const Spacer(),
+                  if (_language == lang['code'])
+                    Icon(Icons.check_circle, color: scheme.primary),
+                ]),
+              ),
             ),
+          )),
+
+          const SizedBox(height: 20),
+          const Divider(),
+          const SizedBox(height: 12),
+
+          // Notifications section
+          _sectionHeader(LocalizationHelper.t('notifications'), Icons.notifications),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: scheme.surface,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: scheme.outline),
+            ),
+            child: Row(children: [
+              const Icon(Icons.notifications_active),
+              const SizedBox(width: 12),
+              Expanded(child: Text(LocalizationHelper.t('notifications'))),
+              Switch(value: _notifications, onChanged: _toggleNotifications),
+            ]),
+          ),
+
+          const SizedBox(height: 20),
+          const Divider(),
+          const SizedBox(height: 12),
+
+          // About section
+          _sectionHeader(LocalizationHelper.t('about'), Icons.info),
+          const SizedBox(height: 10),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: scheme.primaryContainer.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(children: [
+                const Text('💊🐾', style: TextStyle(fontSize: 28)),
+                const SizedBox(width: 12),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text('PawsAndPills', style: TextStyle(fontWeight: FontWeight.bold,
+                      fontSize: 16, color: scheme.primary)),
+                  Text('${LocalizationHelper.t('version')}: 1.0.0',
+                      style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                ]),
+              ]),
+              const SizedBox(height: 8),
+              Text(LocalizationHelper.t('app_subtitle'),
+                  style: const TextStyle(fontSize: 13, color: Colors.grey)),
+            ]),
+          ),
         ],
       ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _items.isEmpty
-              ? Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  const Text('🛒', style: TextStyle(fontSize: 56)),
-                  const SizedBox(height: 16),
-                  Text(LocalizationHelper.t('no_shopping'),
-                      textAlign: TextAlign.center, style: const TextStyle(fontSize: 14)),
-                ]))
-              : Column(children: [
-                  // Stats
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                      _statChip('🛒 $pending pending', Colors.orange),
-                      _statChip('✅ $bought bought', Colors.green),
-                    ]),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      itemCount: _items.length,
-                      itemBuilder: (ctx, i) {
-                        final item = _items[i];
-                        final isBought = item['bought'] == 1;
-                        return Dismissible(
-                          key: Key('shop_${item['id']}'),
-                          direction: DismissDirection.endToStart,
-                          background: Container(
-                            alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.only(right: 16),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(Icons.delete, color: Colors.white),
-                          ),
-                          onDismissed: (_) async {
-                            await DatabaseHelper.deleteShoppingItem(item['id'] as int);
-                            await _load();
-                          },
-                          child: Card(
-                            margin: const EdgeInsets.only(bottom: 8),
-                            child: ListTile(
-                              leading: Checkbox(
-                                value: isBought,
-                                activeColor: scheme.primary,
-                                onChanged: (_) async {
-                                  await DatabaseHelper.toggleShoppingBought(
-                                      item['id'] as int, item['bought'] as int);
-                                  await _load();
-                                },
-                              ),
-                              title: Text(item['medication_name'] as String,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    decoration: isBought ? TextDecoration.lineThrough : null,
-                                    color: isBought ? Colors.grey : null,
-                                  )),
-                              subtitle: Text(item['profile_name'] as String,
-                                  style: TextStyle(color: isBought ? Colors.grey : null)),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete_outline, color: Colors.red),
-                                onPressed: () async {
-                                  await DatabaseHelper.deleteShoppingItem(item['id'] as int);
-                                  await _load();
-                                },
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ]),
     );
   }
 
-  Widget _statChip(String text, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.3)),
-      ),
-      child: Text(text, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 13)),
-    );
+  Widget _sectionHeader(String title, IconData icon) {
+    final scheme = Theme.of(context).colorScheme;
+    return Row(children: [
+      Icon(icon, color: scheme.primary, size: 20),
+      const SizedBox(width: 8),
+      Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: scheme.primary)),
+    ]);
   }
 }
