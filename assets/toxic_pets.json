@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "medication": "ibuprofen",
+    "toxic_to": ["dog","cat","rabbit","bird","hamster","fish","reptile","horse"],
+    "severity": "high",
+    "description_en": "Ibuprofen is extremely toxic to all pets. Can cause kidney failure, stomach ulcers and death. Never give to any pet.",
+    "description_ar": "الإيبوبروفين سام للغاية لجميع الحيوانات الأليفة. يمكن أن يسبب فشل الكلى وقرحة المعدة والوفاة.",
+    "description_fr": "L'ibuprofène est extrêmement toxique pour tous les animaux. Peut causer insuffisance rénale et mort.",
+    "description_es": "El ibuprofeno es extremadamente tóxico para todas las mascotas. Puede causar fallo renal y muerte."
+  },
+  {
+    "id": 2,
+    "medication": "paracetamol",
+    "toxic_to": ["cat","bird","rabbit"],
+    "severity": "high",
+    "description_en": "Paracetamol is highly toxic to cats and birds causing liver damage and red blood cell destruction. Fatal even in small doses.",
+    "description_ar": "الباراسيتامول شديد السمية للقطط والطيور يسبب تلف الكبد وتدمير كريات الدم الحمراء. مميت حتى بجرعات صغيرة.",
+    "description_fr": "Le paracétamol est très toxique pour les chats et oiseaux causant des dommages hépatiques.",
+    "description_es": "El paracetamol es muy tóxico para gatos y aves causando daño hepático. Fatal incluso en pequeñas dosis."
+  },
+  {
+    "id": 3,
+    "medication": "aspirin",
+    "toxic_to": ["cat","bird","rabbit","hamster"],
+    "severity": "high",
+    "description_en": "Aspirin is toxic to cats and birds. Cats cannot metabolize aspirin properly leading to toxicity buildup.",
+    "description_ar": "الأسبرين سام للقطط والطيور. لا تستطيع القطط استقلاب الأسبرين بشكل صحيح مما يؤدي إلى تراكم السموم.",
+    "description_fr": "L'aspirine est toxique pour les chats et oiseaux. Les chats ne peuvent pas métaboliser l'aspirine.",
+    "description_es": "La aspirina es tóxica para gatos y aves. Los gatos no pueden metabolizar la aspirina correctamente."
+  },
+  {
+    "id": 4,
+    "medication": "xylitol",
+    "toxic_to": ["dog","cat","rabbit","hamster"],
+    "severity": "high",
+    "description_en": "Xylitol found in sugar-free products causes severe hypoglycemia and liver failure in dogs and cats.",
+    "description_ar": "الزيليتول الموجود في المنتجات الخالية من السكر يسبب نقصاً حاداً في سكر الدم وفشل الكبد في الكلاب والقطط.",
+    "description_fr": "Le xylitol trouvé dans les produits sans sucre cause hypoglycémie sévère et insuffisance hépatique.",
+    "description_es": "El xilitol en productos sin azúcar causa hipoglucemia severa e insuficiencia hepática en perros y gatos."
+  },
+  {
+    "id": 5,
+    "medication": "pseudoephedrine",
+    "toxic_to": ["dog","cat","rabbit","bird","hamster","horse"],
+    "severity": "high",
+    "description_en": "Pseudoephedrine found in cold medications causes seizures, heart problems and death in pets.",
+    "description_ar": "السودوإيفيدرين الموجود في أدوية البرد يسبب نوبات وأمراض قلبية وموت الحيوانات الأليفة.",
+    "description_fr": "La pseudoéphédrine dans les médicaments contre le rhume cause convulsions et problèmes cardiaques.",
+    "description_es": "La pseudoefedrina en medicamentos para el resfriado causa convulsiones y problemas cardíacos en mascotas."
+  },
+  {
+    "id": 6,
+    "medication": "permethrin",
+    "toxic_to": ["cat","fish","reptile","bird"],
+    "severity": "high",
+    "description_en": "Permethrin flea treatments safe for dogs are highly toxic to cats causing tremors and death.",
+    "description_ar": "علاجات البراغيث بالبيرميثرين الآمنة للكلاب شديدة السمية للقطط وتسبب الارتعاش والموت.",
+    "description_fr": "Les traitements antipuces à la perméthrine sûrs pour les chiens sont très toxiques pour les chats.",
+    "description_es": "Los tratamientos para pulgas con permetrina seguros para perros son muy tóxicos para los gatos."
+  },
+  {
+    "id": 7,
+    "medication": "metronidazole_high_dose",
+    "toxic_to": ["bird","rabbit","hamster"],
+    "severity": "medium",
+    "description_en": "High doses of metronidazole can cause neurological problems in birds and small animals.",
+    "description_ar": "الجرعات العالية من الميترونيدازول يمكن أن تسبب مشاكل عصبية في الطيور والحيوانات الصغيرة.",
+    "description_fr": "Des doses élevées de métronidazole peuvent causer des problèmes neurologiques chez les oiseaux.",
+    "description_es": "Dosis altas de metronidazol pueden causar problemas neurológicos en aves y animales pequeños."
+  },
+  {
+    "id": 8,
+    "medication": "tetracycline",
+    "toxic_to": ["bird","reptile"],
+    "severity": "medium",
+    "description_en": "Tetracycline can cause liver damage in birds and reptiles. Use species-specific doses only.",
+    "description_ar": "التتراسيكلين يمكن أن يسبب تلف الكبد في الطيور والزواحف. استخدم جرعات خاصة بالأنواع فقط.",
+    "description_fr": "La tétracycline peut causer des dommages hépatiques chez les oiseaux et reptiles.",
+    "description_es": "La tetraciclina puede causar daño hepático en aves y reptiles."
+  },
+  {
+    "id": 9,
+    "medication": "ivermectin",
+    "toxic_to": ["rabbit","bird","fish","hamster"],
+    "severity": "high",
+    "description_en": "Ivermectin is toxic to rabbits, birds and fish at standard doses. Some dog breeds also sensitive.",
+    "description_ar": "الإيفرميكتين سام للأرانب والطيور والأسماك بالجرعات المعتادة. بعض سلالات الكلاب أيضاً حساسة.",
+    "description_fr": "L'ivermectine est toxique pour les lapins, oiseaux et poissons aux doses standard.",
+    "description_es": "La ivermectina es tóxica para conejos, aves y peces en dosis estándar."
+  },
+  {
+    "id": 10,
+    "medication": "amitriptyline",
+    "toxic_to": ["cat","bird","rabbit","hamster","fish"],
+    "severity": "high",
+    "description_en": "Amitriptyline is very toxic to cats and small animals causing heart arrhythmias and seizures.",
+    "description_ar": "أميتريبتيلين شديد السمية للقطط والحيوانات الصغيرة يسبب اضطراب نظم القلب والنوبات.",
+    "description_fr": "L'amitriptyline est très toxique pour les chats et petits animaux causant arythmies cardiaques.",
+    "description_es": "La amitriptilina es muy tóxica para gatos y animales pequeños causando arritmias cardíacas."
+  },
+  {
+    "id": 11,
+    "medication": "benzodiazepines",
+    "toxic_to": ["cat","bird","rabbit","hamster"],
+    "severity": "medium",
+    "description_en": "Benzodiazepines can cause paradoxical excitation and liver damage in cats and small animals.",
+    "description_ar": "يمكن أن تسبب البنزوديازيبينات إثارة متناقضة وتلف الكبد في القطط والحيوانات الصغيرة.",
+    "description_fr": "Les benzodiazépines peuvent causer une excitation paradoxale et des lésions hépatiques chez les chats.",
+    "description_es": "Las benzodiacepinas pueden causar excitación paradójica y daño hepático en gatos y animales pequeños."
+  },
+  {
+    "id": 12,
+    "medication": "fluoroquinolones",
+    "toxic_to": ["bird","reptile","young_dog","young_cat"],
+    "severity": "medium",
+    "description_en": "Fluoroquinolone antibiotics can cause retinal degeneration in cats and joint problems in young animals.",
+    "description_ar": "يمكن أن تسبب مضادات الفلوروكينولون تنكس الشبكية في القطط ومشاكل المفاصل في الحيوانات الصغيرة.",
+    "description_fr": "Les fluoroquinolones peuvent causer une dégénérescence rétinienne chez les chats.",
+    "description_es": "Las fluoroquinolonas pueden causar degeneración retinal en gatos y problemas articulares en animales jóvenes."
+  },
+  {
+    "id": 13,
+    "medication": "naproxen",
+    "toxic_to": ["dog","cat","rabbit","bird","hamster","horse"],
+    "severity": "high",
+    "description_en": "Naproxen is highly toxic to all pets causing kidney failure, stomach bleeding and death.",
+    "description_ar": "نابروكسين شديد السمية لجميع الحيوانات الأليفة يسبب فشل الكلى ونزيف المعدة والموت.",
+    "description_fr": "Le naproxène est très toxique pour tous les animaux causant insuffisance rénale et saignement gastrique.",
+    "description_es": "El naproxeno es muy tóxico para todas las mascotas causando fallo renal y sangrado gástrico."
+  },
+  {
+    "id": 14,
+    "medication": "diclofenac",
+    "toxic_to": ["bird","cat","dog","horse"],
+    "severity": "high",
+    "description_en": "Diclofenac is extremely toxic to birds causing rapid kidney failure. Also dangerous for cats and dogs.",
+    "description_ar": "ديكلوفيناك شديد السمية للطيور ويسبب فشلاً كلوياً سريعاً. خطير أيضاً للقطط والكلاب.",
+    "description_fr": "Le diclofénac est extrêmement toxique pour les oiseaux causant une insuffisance rénale rapide.",
+    "description_es": "El diclofenaco es extremadamente tóxico para las aves causando insuficiencia renal rápida."
+  },
+  {
+    "id": 15,
+    "medication": "antihistamines_high_dose",
+    "toxic_to": ["cat","bird","hamster","rabbit"],
+    "severity": "medium",
+    "description_en": "High dose antihistamines can cause dangerous sedation and respiratory depression in small pets.",
+    "description_ar": "مضادات الهيستامين بجرعات عالية يمكن أن تسبب تخديراً خطيراً وكبتاً تنفسياً في الحيوانات الأليفة الصغيرة.",
+    "description_fr": "Les antihistaminiques à haute dose peuvent causer une sédation dangereuse chez les petits animaux.",
+    "description_es": "Los antihistamínicos en dosis altas pueden causar sedación peligrosa en mascotas pequeñas."
+  }
+]
