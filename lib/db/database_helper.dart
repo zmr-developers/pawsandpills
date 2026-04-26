@@ -6,6 +6,11 @@ import 'package:path/path.dart';
 
 class DatabaseHelper {
   static Database? _db;
+  static int _interstitialCount = 0;
+
+  static int get interstitialCount => _interstitialCount;
+  static void incrementInterstitial() => _interstitialCount++;
+  static bool shouldShowInterstitial() => _interstitialCount % 3 == 0;
 
   static Future<Database> get database async {
     _db ??= await _initDb();
@@ -17,8 +22,19 @@ class DatabaseHelper {
     final path = join(dbPath, 'pawsandpills.db');
     return openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: (db, version) async {
+        await _createTables(db);
+        await _seedData(db);
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        await db.execute('DROP TABLE IF EXISTS profiles');
+        await db.execute('DROP TABLE IF EXISTS medications');
+        await db.execute('DROP TABLE IF EXISTS dose_history');
+        await db.execute('DROP TABLE IF EXISTS shopping_list');
+        await db.execute('DROP TABLE IF EXISTS conflicts');
+        await db.execute('DROP TABLE IF EXISTS toxic_pets');
+        await db.execute('DROP TABLE IF EXISTS species');
         await _createTables(db);
         await _seedData(db);
       },
@@ -32,7 +48,8 @@ class DatabaseHelper {
         name TEXT NOT NULL,
         type TEXT NOT NULL,
         subtype TEXT NOT NULL,
-        age INTEGER,
+        age_years INTEGER DEFAULT 0,
+        age_months INTEGER DEFAULT 0,
         photo_path TEXT,
         vet_contact TEXT,
         notes TEXT,
@@ -63,6 +80,8 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         medication_id INTEGER NOT NULL,
         profile_id INTEGER NOT NULL,
+        medication_name TEXT NOT NULL,
+        profile_name TEXT NOT NULL,
         scheduled_time TEXT NOT NULL,
         status TEXT NOT NULL,
         taken_at TEXT,
@@ -114,11 +133,15 @@ class DatabaseHelper {
         type TEXT NOT NULL
       )
     ''');
+    // Indexes for performance
+    await db.execute('CREATE INDEX idx_medications_profile ON medications(profile_id)');
+    await db.execute('CREATE INDEX idx_dose_history_profile ON dose_history(profile_id)');
+    await db.execute('CREATE INDEX idx_dose_history_medication ON dose_history(medication_id)');
+    await db.execute('CREATE INDEX idx_dose_history_time ON dose_history(scheduled_time)');
   }
 
   static Future<void> _seedData(Database db) async {
     try {
-      // Seed species
       final speciesJson = await rootBundle.loadString('assets/species.json');
       final List speciesList = jsonDecode(speciesJson);
       for (final s in speciesList) {
@@ -134,7 +157,6 @@ class DatabaseHelper {
       }
       debugPrint('Species seeded: ${speciesList.length}');
 
-      // Seed conflicts
       final conflictsJson = await rootBundle.loadString('assets/conflicts.json');
       final List conflictsList = jsonDecode(conflictsJson);
       for (final c in conflictsList) {
@@ -150,7 +172,6 @@ class DatabaseHelper {
       }
       debugPrint('Conflicts seeded: ${conflictsList.length}');
 
-      // Seed toxic pets
       final toxicJson = await rootBundle.loadString('assets/toxic_pets.json');
       final List toxicList = jsonDecode(toxicJson);
       for (final t in toxicList) {
@@ -169,63 +190,14 @@ class DatabaseHelper {
       }
       debugPrint('Toxic pets seeded: ${toxicList.length}');
 
-      // Seed sample profiles
       final now = DateTime.now().toIso8601String();
-      await db.insert('profiles', {
-        'name': 'John',
-        'type': 'human',
-        'subtype': 'adult',
-        'age': 35,
-        'created_at': now,
-      });
-      await db.insert('profiles', {
-        'name': 'Grandma Rose',
-        'type': 'human',
-        'subtype': 'senior',
-        'age': 72,
-        'created_at': now,
-      });
-      await db.insert('profiles', {
-        'name': 'Buddy',
-        'type': 'pet',
-        'subtype': 'dog',
-        'created_at': now,
-      });
+      await db.insert('profiles', {'name': 'John', 'type': 'human', 'subtype': 'adult', 'age_years': 35, 'age_months': 0, 'created_at': now});
+      await db.insert('profiles', {'name': 'Grandma Rose', 'type': 'human', 'subtype': 'senior', 'age_years': 72, 'age_months': 0, 'created_at': now});
+      await db.insert('profiles', {'name': 'Buddy', 'type': 'pet', 'subtype': 'dog', 'age_years': 2, 'age_months': 3, 'created_at': now});
 
-      // Seed sample medications
-      await db.insert('medications', {
-        'profile_id': 1,
-        'name': 'Metformin',
-        'dose': '500',
-        'unit': 'mg',
-        'frequency': 'twice_daily',
-        'times': '08:00,20:00',
-        'stock_count': 60,
-        'active': 1,
-        'created_at': now,
-      });
-      await db.insert('medications', {
-        'profile_id': 2,
-        'name': 'Aspirin',
-        'dose': '81',
-        'unit': 'mg',
-        'frequency': 'once_daily',
-        'times': '09:00',
-        'stock_count': 30,
-        'active': 1,
-        'created_at': now,
-      });
-      await db.insert('medications', {
-        'profile_id': 3,
-        'name': 'Heartgard',
-        'dose': '1',
-        'unit': 'tablet',
-        'frequency': 'monthly',
-        'times': '08:00',
-        'stock_count': 6,
-        'active': 1,
-        'created_at': now,
-      });
+      await db.insert('medications', {'profile_id': 1, 'name': 'Metformin', 'dose': '500', 'unit': 'mg', 'frequency': 'twice_daily', 'times': '08:00,20:00', 'stock_count': 60, 'active': 1, 'created_at': now});
+      await db.insert('medications', {'profile_id': 2, 'name': 'Aspirin', 'dose': '81', 'unit': 'mg', 'frequency': 'once_daily', 'times': '09:00', 'stock_count': 30, 'active': 1, 'created_at': now});
+      await db.insert('medications', {'profile_id': 3, 'name': 'Heartgard', 'dose': '1', 'unit': 'tablet', 'frequency': 'monthly', 'times': '08:00', 'stock_count': 6, 'active': 1, 'created_at': now});
 
       debugPrint('Sample data seeded successfully');
     } catch (e, stack) {
@@ -254,8 +226,8 @@ class DatabaseHelper {
 
   static Future<void> deleteProfile(int id) async {
     final db = await database;
-    await db.delete('medications', where: 'profile_id = ?', whereArgs: [id]);
     await db.delete('dose_history', where: 'profile_id = ?', whereArgs: [id]);
+    await db.delete('medications', where: 'profile_id = ?', whereArgs: [id]);
     await db.delete('profiles', where: 'id = ?', whereArgs: [id]);
   }
 
@@ -263,10 +235,7 @@ class DatabaseHelper {
 
   static Future<List<Map<String, dynamic>>> getMedications(int profileId) async {
     final db = await database;
-    return db.query('medications',
-        where: 'profile_id = ? AND active = 1',
-        whereArgs: [profileId],
-        orderBy: 'created_at ASC');
+    return db.query('medications', where: 'profile_id = ? AND active = 1', whereArgs: [profileId], orderBy: 'created_at ASC');
   }
 
   static Future<List<Map<String, dynamic>>> getAllMedications() async {
@@ -288,59 +257,75 @@ class DatabaseHelper {
 
   static Future<void> deleteMedication(int id) async {
     final db = await database;
-    await db.update('medications', {'active': 0},
-        where: 'id = ?', whereArgs: [id]);
+    await db.update('medications', {'active': 0}, where: 'id = ?', whereArgs: [id]);
   }
 
   // ─── DOSE HISTORY ───────────────────────────────────────────
 
   static Future<void> markDose(int medicationId, int profileId,
+      String medicationName, String profileName,
       String scheduledTime, String status) async {
     final db = await database;
-    await db.insert('dose_history', {
-      'medication_id': medicationId,
-      'profile_id': profileId,
-      'scheduled_time': scheduledTime,
-      'status': status,
-      'taken_at': status == 'taken' ? DateTime.now().toIso8601String() : null,
-    }, conflictAlgorithm: ConflictAlgorithm.replace);
+    final existing = await db.query('dose_history',
+        where: 'medication_id = ? AND scheduled_time = ?',
+        whereArgs: [medicationId, scheduledTime]);
+    if (existing.isNotEmpty) {
+      await db.update('dose_history',
+          {'status': status, 'taken_at': status == 'taken' ? DateTime.now().toIso8601String() : null},
+          where: 'medication_id = ? AND scheduled_time = ?',
+          whereArgs: [medicationId, scheduledTime]);
+    } else {
+      await db.insert('dose_history', {
+        'medication_id': medicationId,
+        'profile_id': profileId,
+        'medication_name': medicationName,
+        'profile_name': profileName,
+        'scheduled_time': scheduledTime,
+        'status': status,
+        'taken_at': status == 'taken' ? DateTime.now().toIso8601String() : null,
+      });
+    }
   }
 
-  static Future<List<Map<String, dynamic>>> getDoseHistory(
-      {int? profileId, int? medicationId}) async {
+  static Future<List<Map<String, dynamic>>> getDoseHistory({int? profileId, String? date}) async {
     final db = await database;
-    String? where;
-    List<dynamic>? whereArgs;
+    String where = '1=1';
+    List<dynamic> whereArgs = [];
     if (profileId != null) {
-      where = 'profile_id = ?';
-      whereArgs = [profileId];
-    } else if (medicationId != null) {
-      where = 'medication_id = ?';
-      whereArgs = [medicationId];
+      where += ' AND profile_id = ?';
+      whereArgs.add(profileId);
+    }
+    if (date != null) {
+      where += ' AND DATE(scheduled_time) = ?';
+      whereArgs.add(date);
     }
     return db.query('dose_history',
         where: where,
-        whereArgs: whereArgs,
-        orderBy: 'scheduled_time DESC');
+        whereArgs: whereArgs.isEmpty ? null : whereArgs,
+        orderBy: 'scheduled_time DESC',
+        limit: 200);
   }
 
   // ─── SHOPPING LIST ──────────────────────────────────────────
 
   static Future<List<Map<String, dynamic>>> getShoppingList() async {
     final db = await database;
-    return db.query('shopping_list', orderBy: 'created_at DESC');
+    return db.query('shopping_list', orderBy: 'bought ASC, created_at DESC');
   }
 
-  static Future<void> addToShopping(
-      String medName, String profileName) async {
+  static Future<void> addToShopping(String medName, String profileName) async {
     final db = await database;
-    await db.insert('shopping_list', {
-      'medication_name': medName,
-      'profile_name': profileName,
-      'quantity': 1,
-      'bought': 0,
-      'created_at': DateTime.now().toIso8601String(),
-    });
+    final existing = await db.query('shopping_list',
+        where: 'medication_name = ? AND bought = 0', whereArgs: [medName]);
+    if (existing.isEmpty) {
+      await db.insert('shopping_list', {
+        'medication_name': medName,
+        'profile_name': profileName,
+        'quantity': 1,
+        'bought': 0,
+        'created_at': DateTime.now().toIso8601String(),
+      });
+    }
   }
 
   static Future<void> toggleShoppingBought(int id, int current) async {
@@ -356,20 +341,18 @@ class DatabaseHelper {
 
   // ─── CONFLICTS ──────────────────────────────────────────────
 
-  static Future<List<Map<String, dynamic>>> checkConflicts(
-      String medName, int profileId) async {
+  static Future<List<Map<String, dynamic>>> checkConflicts(String medName, int profileId) async {
     final db = await database;
     final existing = await getMedications(profileId);
-    final existingNames =
-        existing.map((m) => m['name'].toString().toLowerCase()).toList();
+    final existingNames = existing.map((m) => m['name'].toString().toLowerCase()).toList();
     final name = medName.toLowerCase();
     final results = <Map<String, dynamic>>[];
     for (final existingName in existingNames) {
       final conflicts = await db.rawQuery('''
         SELECT * FROM conflicts 
-        WHERE (LOWER(med1) = ? AND LOWER(med2) = ?)
-           OR (LOWER(med1) = ? AND LOWER(med2) = ?)
-      ''', [name, existingName, existingName, name]);
+        WHERE (LOWER(med1) LIKE ? AND LOWER(med2) LIKE ?)
+           OR (LOWER(med1) LIKE ? AND LOWER(med2) LIKE ?)
+      ''', ['%$name%', '%$existingName%', '%$existingName%', '%$name%']);
       results.addAll(conflicts);
     }
     return results;
@@ -377,21 +360,17 @@ class DatabaseHelper {
 
   // ─── TOXIC CHECK ────────────────────────────────────────────
 
-  static Future<List<Map<String, dynamic>>> checkToxicForPet(
-      String medName, String species) async {
+  static Future<List<Map<String, dynamic>>> checkToxicForPet(String medName, String species) async {
     final db = await database;
-    final results = await db.rawQuery('''
+    return db.rawQuery('''
       SELECT * FROM toxic_pets 
-      WHERE LOWER(medication) = ? 
-        AND toxic_to LIKE ?
-    ''', [medName.toLowerCase(), '%$species%']);
-    return results;
+      WHERE LOWER(medication) LIKE ? AND toxic_to LIKE ?
+    ''', ['%${medName.toLowerCase()}%', '%$species%']);
   }
 
   // ─── SPECIES ────────────────────────────────────────────────
 
-  static Future<List<Map<String, dynamic>>> getSpecies(
-      {String? type}) async {
+  static Future<List<Map<String, dynamic>>> getSpecies({String? type}) async {
     final db = await database;
     if (type != null) {
       return db.query('species', where: 'type = ?', whereArgs: [type]);
@@ -401,23 +380,39 @@ class DatabaseHelper {
 
   // ─── TODAY'S DOSES ──────────────────────────────────────────
 
-  static Future<List<Map<String, dynamic>>> getTodayDoses() async {
+  static Future<List<Map<String, dynamic>>> getDosesForDate(String date) async {
     final db = await database;
-    final today = DateTime.now().toIso8601String().substring(0, 10);
-    return db.rawQuery('''
-      SELECT dh.*, m.name as med_name, p.name as profile_name, p.subtype
-      FROM dose_history dh
-      JOIN medications m ON dh.medication_id = m.id
-      JOIN profiles p ON dh.profile_id = p.id
-      WHERE DATE(dh.scheduled_time) = ?
-      ORDER BY dh.scheduled_time ASC
-    ''', [today]);
+    final profiles = await getProfiles();
+    final List<Map<String, dynamic>> result = [];
+
+    for (final profile in profiles) {
+      final meds = await getMedications(profile['id'] as int);
+      for (final med in meds) {
+        final times = (med['times'] as String? ?? '08:00').split(',');
+        for (final time in times) {
+          final scheduledTime = '$date ${time.trim()}';
+          final history = await db.query('dose_history',
+              where: 'medication_id = ? AND scheduled_time = ?',
+              whereArgs: [med['id'], scheduledTime]);
+          final status = history.isEmpty ? 'pending' : history.first['status'] as String;
+          result.add({
+            ...med,
+            'profile_name': profile['name'],
+            'profile_subtype': profile['subtype'],
+            'scheduled_time': scheduledTime,
+            'display_time': time.trim(),
+            'dose_status': status,
+          });
+        }
+      }
+    }
+    result.sort((a, b) => a['display_time'].compareTo(b['display_time']));
+    return result;
   }
 
   // ─── LOW STOCK ──────────────────────────────────────────────
 
-  static Future<List<Map<String, dynamic>>> getLowStockMedications(
-      {int threshold = 7}) async {
+  static Future<List<Map<String, dynamic>>> getLowStockMedications({int threshold = 7}) async {
     final db = await database;
     return db.rawQuery('''
       SELECT m.*, p.name as profile_name
@@ -426,5 +421,28 @@ class DatabaseHelper {
       WHERE m.active = 1 AND m.stock_count <= ?
       ORDER BY m.stock_count ASC
     ''', [threshold]);
+  }
+
+  // ─── AGE DISPLAY ────────────────────────────────────────────
+
+  static String formatAge(Map<String, dynamic> profile, String lang) {
+    final years = profile['age_years'] as int? ?? 0;
+    final months = profile['age_months'] as int? ?? 0;
+    final subtype = profile['subtype'] as String? ?? '';
+    final showMonths = ['child', 'dog', 'cat', 'rabbit', 'bird', 'hamster', 'fish', 'reptile', 'horse'].contains(subtype);
+
+    final Map<String, Map<String, String>> labels = {
+      'years': {'en': 'y', 'ar': 'س', 'fr': 'a', 'es': 'a'},
+      'months': {'en': 'm', 'ar': 'ش', 'fr': 'm', 'es': 'm'},
+    };
+
+    final y = labels['years']![lang] ?? 'y';
+    final m = labels['months']![lang] ?? 'm';
+
+    if (years == 0 && months == 0) return '';
+    if (!showMonths) return '$years$y';
+    if (years == 0) return '$months$m';
+    if (months == 0) return '$years$y';
+    return '$years$y $months$m';
   }
 }
