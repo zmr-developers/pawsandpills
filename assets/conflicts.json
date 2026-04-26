@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "med1": "ibuprofen",
+    "med2": "aspirin",
+    "severity": "high",
+    "description_en": "Taking ibuprofen and aspirin together increases risk of stomach bleeding and reduces effectiveness of both medications.",
+    "description_ar": "تناول الإيبوبروفين والأسبرين معاً يزيد من خطر نزيف المعدة ويقلل من فعالية كلا الدوائين.",
+    "description_fr": "Prendre ibuprofène et aspirine ensemble augmente le risque de saignement gastrique.",
+    "description_es": "Tomar ibuprofeno y aspirina juntos aumenta el riesgo de sangrado estomacal."
+  },
+  {
+    "id": 2,
+    "med1": "warfarin",
+    "med2": "aspirin",
+    "severity": "high",
+    "description_en": "Combining warfarin and aspirin significantly increases bleeding risk. Avoid unless prescribed by doctor.",
+    "description_ar": "الجمع بين الوارفارين والأسبرين يزيد بشكل كبير من خطر النزيف. تجنب إلا إذا وصفه الطبيب.",
+    "description_fr": "La combinaison warfarine et aspirine augmente significativement le risque de saignement.",
+    "description_es": "Combinar warfarina y aspirina aumenta significativamente el riesgo de sangrado."
+  },
+  {
+    "id": 3,
+    "med1": "metformin",
+    "med2": "alcohol",
+    "severity": "high",
+    "description_en": "Combining metformin with alcohol increases risk of lactic acidosis, a serious condition.",
+    "description_ar": "الجمع بين الميتفورمين والكحول يزيد من خطر الحماض اللبني.",
+    "description_fr": "Combiner metformine et alcool augmente le risque d'acidose lactique.",
+    "description_es": "Combinar metformina y alcohol aumenta el riesgo de acidosis láctica."
+  },
+  {
+    "id": 4,
+    "med1": "amoxicillin",
+    "med2": "warfarin",
+    "severity": "medium",
+    "description_en": "Amoxicillin may enhance the anticoagulant effect of warfarin, increasing bleeding risk.",
+    "description_ar": "قد يعزز أموكسيسيلين تأثير الوارفارين المضاد للتخثر، مما يزيد من خطر النزيف.",
+    "description_fr": "L'amoxicilline peut renforcer l'effet anticoagulant de la warfarine.",
+    "description_es": "La amoxicilina puede potenciar el efecto anticoagulante de la warfarina."
+  },
+  {
+    "id": 5,
+    "med1": "ibuprofen",
+    "med2": "blood_pressure_medication",
+    "severity": "medium",
+    "description_en": "Ibuprofen can reduce the effectiveness of blood pressure medications and increase blood pressure.",
+    "description_ar": "يمكن أن يقلل الإيبوبروفين من فعالية أدوية ضغط الدم ويزيد من ضغط الدم.",
+    "description_fr": "L'ibuprofène peut réduire l'efficacité des médicaments contre l'hypertension.",
+    "description_es": "El ibuprofeno puede reducir la efectividad de los medicamentos para la presión arterial."
+  },
+  {
+    "id": 6,
+    "med1": "ssri",
+    "med2": "tramadol",
+    "severity": "high",
+    "description_en": "Combining SSRIs with tramadol can cause serotonin syndrome, a potentially life-threatening condition.",
+    "description_ar": "الجمع بين مثبطات استرداد السيروتونين والترامادول يمكن أن يسبب متلازمة السيروتونين.",
+    "description_fr": "La combinaison ISRS et tramadol peut provoquer un syndrome sérotoninergique.",
+    "description_es": "Combinar ISRS con tramadol puede causar síndrome serotoninérgico."
+  },
+  {
+    "id": 7,
+    "med1": "digoxin",
+    "med2": "amiodarone",
+    "severity": "high",
+    "description_en": "Amiodarone increases digoxin levels in the blood, which can lead to toxicity.",
+    "description_ar": "يزيد الأميودارون من مستويات الديجوكسين في الدم مما قد يؤدي إلى التسمم.",
+    "description_fr": "L'amiodarone augmente les niveaux de digoxine dans le sang.",
+    "description_es": "La amiodarona aumenta los niveles de digoxina en sangre."
+  },
+  {
+    "id": 8,
+    "med1": "paracetamol",
+    "med2": "alcohol",
+    "severity": "high",
+    "description_en": "Taking paracetamol with alcohol increases risk of serious liver damage.",
+    "description_ar": "تناول الباراسيتامول مع الكحول يزيد من خطر تلف الكبد الخطير.",
+    "description_fr": "Prendre paracétamol avec alcool augmente le risque de lésions hépatiques graves.",
+    "description_es": "Tomar paracetamol con alcohol aumenta el riesgo de daño hepático grave."
+  },
+  {
+    "id": 9,
+    "med1": "statins",
+    "med2": "clarithromycin",
+    "severity": "high",
+    "description_en": "Clarithromycin increases statin levels in blood, raising risk of muscle damage.",
+    "description_ar": "يزيد الكلاريثروميسين من مستويات الستاتينات في الدم مما يزيد خطر تلف العضلات.",
+    "description_fr": "La clarithromycine augmente les niveaux de statines dans le sang.",
+    "description_es": "La claritromicina aumenta los niveles de estatinas en sangre."
+  },
+  {
+    "id": 10,
+    "med1": "methotrexate",
+    "med2": "nsaids",
+    "severity": "high",
+    "description_en": "NSAIDs can increase methotrexate toxicity to dangerous levels.",
+    "description_ar": "يمكن أن تزيد مضادات الالتهاب غير الستيرويدية من سمية الميثوتريكسات إلى مستويات خطيرة.",
+    "description_fr": "Les AINS peuvent augmenter la toxicité du méthotrexate.",
+    "description_es": "Los AINE pueden aumentar la toxicidad del metotrexato."
+  },
+  {
+    "id": 11,
+    "med1": "lithium",
+    "med2": "ibuprofen",
+    "severity": "high",
+    "description_en": "Ibuprofen can increase lithium levels in blood to toxic levels.",
+    "description_ar": "يمكن أن يزيد الإيبوبروفين من مستويات الليثيوم في الدم إلى مستويات سامة.",
+    "description_fr": "L'ibuprofène peut augmenter les niveaux de lithium dans le sang.",
+    "description_es": "El ibuprofeno puede aumentar los niveles de litio en sangre."
+  },
+  {
+    "id": 12,
+    "med1": "ciprofloxacin",
+    "med2": "antacids",
+    "severity": "medium",
+    "description_en": "Antacids reduce absorption of ciprofloxacin. Take at least 2 hours apart.",
+    "description_ar": "تقلل مضادات الحموضة من امتصاص السيبروفلوكساسين. تناولهما بفارق ساعتين على الأقل.",
+    "description_fr": "Les antiacides réduisent l'absorption de ciprofloxacine. Prendre à 2 heures d'intervalle.",
+    "description_es": "Los antiácidos reducen la absorción de ciprofloxacina. Tomar con 2 horas de diferencia."
+  },
+  {
+    "id": 13,
+    "med1": "clopidogrel",
+    "med2": "omeprazole",
+    "severity": "medium",
+    "description_en": "Omeprazole may reduce the effectiveness of clopidogrel in preventing blood clots.",
+    "description_ar": "قد يقلل أوميبرازول من فعالية كلوبيدوغريل في منع تجلط الدم.",
+    "description_fr": "L'oméprazole peut réduire l'efficacité du clopidogrel.",
+    "description_es": "El omeprazol puede reducir la efectividad del clopidogrel."
+  },
+  {
+    "id": 14,
+    "med1": "levothyroxine",
+    "med2": "calcium",
+    "severity": "medium",
+    "description_en": "Calcium supplements reduce absorption of levothyroxine. Take at least 4 hours apart.",
+    "description_ar": "مكملات الكالسيوم تقلل من امتصاص ليفوثيروكسين. تناولهما بفارق 4 ساعات على الأقل.",
+    "description_fr": "Les suppléments de calcium réduisent l'absorption de lévothyroxine.",
+    "description_es": "Los suplementos de calcio reducen la absorción de levotiroxina."
+  },
+  {
+    "id": 15,
+    "med1": "fluoxetine",
+    "med2": "maoi",
+    "severity": "high",
+    "description_en": "Combining fluoxetine with MAOIs can cause severe serotonin syndrome, which can be fatal.",
+    "description_ar": "الجمع بين فلوكستين ومثبطات أوكسيديز أحادي الأمين يمكن أن يسبب متلازمة السيروتونين الشديدة.",
+    "description_fr": "La combinaison fluoxétine et IMAO peut causer un syndrome sérotoninergique sévère.",
+    "description_es": "Combinar fluoxetina con IMAO puede causar síndrome serotoninérgico severo."
+  },
+  {
+    "id": 16,
+    "med1": "sildenafil",
+    "med2": "nitrates",
+    "severity": "high",
+    "description_en": "Combining sildenafil with nitrates can cause severe dangerous drop in blood pressure.",
+    "description_ar": "الجمع بين سيلدينافيل والنترات يمكن أن يسبب انخفاضاً حاداً وخطيراً في ضغط الدم.",
+    "description_fr": "Combiner sildénafil et nitrates peut provoquer une chute dangereuse de la pression artérielle.",
+    "description_es": "Combinar sildenafilo con nitratos puede causar una caída peligrosa de la presión arterial."
+  },
+  {
+    "id": 17,
+    "med1": "insulin",
+    "med2": "alcohol",
+    "severity": "high",
+    "description_en": "Alcohol can cause dangerous low blood sugar when combined with insulin.",
+    "description_ar": "يمكن أن يسبب الكحول انخفاضاً خطيراً في سكر الدم عند دمجه مع الأنسولين.",
+    "description_fr": "L'alcool peut provoquer une hypoglycémie dangereuse combiné avec l'insuline.",
+    "description_es": "El alcohol puede causar hipoglucemia peligrosa combinado con insulina."
+  },
+  {
+    "id": 18,
+    "med1": "acepromazine",
+    "med2": "opioids",
+    "severity": "high",
+    "description_en": "Acepromazine combined with opioids can cause severe respiratory depression in pets.",
+    "description_ar": "يمكن أن يسبب الأسيبرومازين مع المواد الأفيونية اكتئاباً تنفسياً شديداً في الحيوانات الأليفة.",
+    "description_fr": "L'acépromazine combinée aux opioïdes peut causer une dépression respiratoire sévère.",
+    "description_es": "La acepromacina combinada con opioides puede causar depresión respiratoria severa en mascotas."
+  },
+  {
+    "id": 19,
+    "med1": "phenobarbital",
+    "med2": "chloramphenicol",
+    "severity": "high",
+    "description_en": "Chloramphenicol inhibits metabolism of phenobarbital, increasing toxicity risk in pets.",
+    "description_ar": "يثبط الكلورامفينيكول استقلاب الفينوباربيتال مما يزيد من خطر السمية في الحيوانات الأليفة.",
+    "description_fr": "Le chloramphénicol inhibe le métabolisme du phénobarbital chez les animaux.",
+    "description_es": "El cloranfenicol inhibe el metabolismo del fenobarbital en mascotas."
+  },
+  {
+    "id": 20,
+    "med1": "metronidazole",
+    "med2": "alcohol",
+    "severity": "high",
+    "description_en": "Alcohol with metronidazole causes severe nausea, vomiting, flushing and rapid heartbeat.",
+    "description_ar": "الكحول مع ميترونيدازول يسبب غثياناً وقيئاً شديداً واحمراراً وتسارعاً في ضربات القلب.",
+    "description_fr": "L'alcool avec métronidazole cause nausées sévères, vomissements et palpitations.",
+    "description_es": "El alcohol con metronidazol causa náuseas severas, vómitos y palpitaciones."
+  }
+]
