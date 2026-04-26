@@ -6,11 +6,11 @@ import '../helpers/localization_helper.dart';
 import '../main.dart';
 import 'medications_screen.dart';
 import 'add_edit_profile_screen.dart';
-import 'shopping_list_screen.dart';
-import 'history_screen.dart';
-import 'calendar_screen.dart';
-import 'settings_screen.dart';
-import 'profiles_screen.dart';
+import 'shopping_list_screen.dart' show ShoppingListScreen;
+import 'history_screen.dart' show HistoryScreen;
+import 'calendar_screen.dart' show CalendarScreen;
+import 'settings_screen.dart' show SettingsScreen;
+import 'profiles_screen.dart' show ProfilesScreen;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
