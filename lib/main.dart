@@ -11,15 +11,15 @@ void main() async {
   await MobileAds.instance.initialize();
   await DatabaseHelper.database;
   final prefs = await SharedPreferences.getInstance();
-  final lang = prefs.getString('app_language') ?? '';
-  final firstLaunch = lang.isEmpty;
-  LocalizationHelper.setLanguage(lang.isEmpty ? 'en' : lang);
-  runApp(PawsAndPillsApp(firstLaunch: firstLaunch));
+  final bool seenOnboarding = prefs.getBool('seen_onboarding') ?? false;
+  final String lang = prefs.getString('app_language') ?? 'en';
+  LocalizationHelper.currentLanguage = lang;
+  runApp(PawsAndPillsApp(showOnboarding: !seenOnboarding));
 }
 
 class PawsAndPillsApp extends StatefulWidget {
-  final bool firstLaunch;
-  const PawsAndPillsApp({super.key, required this.firstLaunch});
+  final bool showOnboarding;
+  const PawsAndPillsApp({super.key, required this.showOnboarding});
   static _PawsAndPillsAppState? of(BuildContext context) =>
       context.findAncestorStateOfType<_PawsAndPillsAppState>();
   @override
@@ -27,25 +27,35 @@ class PawsAndPillsApp extends StatefulWidget {
 }
 
 class _PawsAndPillsAppState extends State<PawsAndPillsApp> {
-  String _lang = LocalizationHelper.currentLanguage;
+  String _language = LocalizationHelper.currentLanguage;
+
   void setLanguage(String lang) {
-    LocalizationHelper.setLanguage(lang);
-    setState(() => _lang = lang);
+    setState(() {
+      _language = lang;
+      LocalizationHelper.currentLanguage = lang;
+    });
   }
+
   @override
   Widget build(BuildContext context) {
-    final isRtl = _lang == 'ar';
-    return Directionality(
-      textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
-      child: MaterialApp(
-        title: 'PawsAndPills',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
-          useMaterial3: true,
+    final isRTL = _language == 'ar';
+    return MaterialApp(
+      title: 'PawsAndPills',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.purple,
+          brightness: Brightness.light,
         ),
-        home: widget.firstLaunch ? const OnboardingScreen() : const HomeScreen(),
+        useMaterial3: true,
       ),
+      builder: (context, child) => Directionality(
+        textDirection: isRTL ? TextDirection.rtl : TextDirection.ltr,
+        child: child!,
+      ),
+      home: widget.showOnboarding
+          ? const OnboardingScreen()
+          : const HomeScreen(),
     );
   }
 }
