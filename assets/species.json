@@ -1,0 +1,122 @@
+[
+  {
+    "id": "dog",
+    "name_en": "Dog",
+    "name_ar": "كلب",
+    "name_fr": "Chien",
+    "name_es": "Perro",
+    "emoji": "🐕",
+    "type": "pet",
+    "common_breeds": ["Labrador","German Shepherd","Golden Retriever","Bulldog","Poodle","Beagle","Chihuahua","Husky"]
+  },
+  {
+    "id": "cat",
+    "name_en": "Cat",
+    "name_ar": "قطة",
+    "name_fr": "Chat",
+    "name_es": "Gato",
+    "emoji": "🐈",
+    "type": "pet",
+    "common_breeds": ["Persian","Siamese","Maine Coon","British Shorthair","Ragdoll","Bengal","Sphynx"]
+  },
+  {
+    "id": "rabbit",
+    "name_en": "Rabbit",
+    "name_ar": "أرنب",
+    "name_fr": "Lapin",
+    "name_es": "Conejo",
+    "emoji": "🐇",
+    "type": "pet",
+    "common_breeds": ["Holland Lop","Netherland Dwarf","Mini Rex","Lionhead","Flemish Giant"]
+  },
+  {
+    "id": "bird",
+    "name_en": "Bird",
+    "name_ar": "طائر",
+    "name_fr": "Oiseau",
+    "name_es": "Pájaro",
+    "emoji": "🐦",
+    "type": "pet",
+    "common_breeds": ["Parrot","Canary","Cockatiel","Budgerigar","Lovebird","Finch","Macaw"]
+  },
+  {
+    "id": "hamster",
+    "name_en": "Hamster",
+    "name_ar": "هامستر",
+    "name_fr": "Hamster",
+    "name_es": "Hámster",
+    "emoji": "🐹",
+    "type": "pet",
+    "common_breeds": ["Syrian","Dwarf Campbell","Roborovski","Chinese","Winter White"]
+  },
+  {
+    "id": "fish",
+    "name_en": "Fish",
+    "name_ar": "سمكة",
+    "name_fr": "Poisson",
+    "name_es": "Pez",
+    "emoji": "🐠",
+    "type": "pet",
+    "common_breeds": ["Goldfish","Betta","Guppy","Angelfish","Clownfish","Tetra","Cichlid"]
+  },
+  {
+    "id": "reptile",
+    "name_en": "Reptile",
+    "name_ar": "زاحف",
+    "name_fr": "Reptile",
+    "name_es": "Reptil",
+    "emoji": "🦎",
+    "type": "pet",
+    "common_breeds": ["Bearded Dragon","Leopard Gecko","Ball Python","Chameleon","Blue Tongue Skink","Tortoise"]
+  },
+  {
+    "id": "horse",
+    "name_en": "Horse",
+    "name_ar": "حصان",
+    "name_fr": "Cheval",
+    "name_es": "Caballo",
+    "emoji": "🐴",
+    "type": "pet",
+    "common_breeds": ["Arabian","Thoroughbred","Quarter Horse","Friesian","Appaloosa","Morgan"]
+  },
+  {
+    "id": "adult",
+    "name_en": "Adult",
+    "name_ar": "بالغ",
+    "name_fr": "Adulte",
+    "name_es": "Adulto",
+    "emoji": "👨",
+    "type": "human",
+    "common_breeds": []
+  },
+  {
+    "id": "senior",
+    "name_en": "Senior",
+    "name_ar": "كبير السن",
+    "name_fr": "Sénior",
+    "name_es": "Mayor",
+    "emoji": "👵",
+    "type": "human",
+    "common_breeds": []
+  },
+  {
+    "id": "child",
+    "name_en": "Child",
+    "name_ar": "طفل",
+    "name_fr": "Enfant",
+    "name_es": "Niño",
+    "emoji": "👶",
+    "type": "human",
+    "common_breeds": []
+  },
+  {
+    "id": "pregnant",
+    "name_en": "Pregnant",
+    "name_ar": "حامل",
+    "name_fr": "Enceinte",
+    "name_es": "Embarazada",
+    "emoji": "🤰",
+    "type": "human",
+    "common_breeds": []
+  }
+]
